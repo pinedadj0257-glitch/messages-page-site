@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Message</title>
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(135deg,#7b1fa2,#ce93d8);
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    background:#f3e5f5;
+    width:90%;
+    max-width:650px;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    text-align:center;
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+h2{ color:#4a148c; }
+
+input{
+    padding:10px;
+    width:220px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    margin-top:12px;
+    padding:10px 25px;
+    border-radius:12px;
+    border:none;
+    background:#6a1b9a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{ background:#4a148c; }
+
+#confession{
+    margin-top:20px;
+    color:#4a148c;
+    line-height:1.6;
+}
+
+.music-btn{
+    background:#8e24aa;
+    margin-top:15px;
+}
+
+.cat{
+    position:fixed;
+    bottom:-30px;
+    font-size:24px;
+    animation:floatCat linear infinite;
+    opacity:0.8;
+}
+
+@keyframes floatCat{
+    0%{ transform:translateY(0); opacity:0; }
+    50%{ opacity:1; }
+    100%{ transform:translateY(-110vh); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div id="namePage">
+    <h2>Enter your name</h2>
+    <input type="text" placeholder="Your name">
+    <br>
+    <button onclick="startConfession()">Continue</button>
+</div>
+
+<div id="confession" style="display:none;"></div>
+
+<button class="music-btn" onclick="toggleMusic()">🎵 Play / Pause Music</button>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="naiilang.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const messages = [
+"I know I said to you that I don't think you would feel the same until my feelings faded. But I was always thinking. Until now, I still do not expect you to feel the same way.",
+"I do not know why, but the day I confessed to you, my feelings became deeper and deeper.",
+"When we went out, I was so grateful seeing you happy that day. That was all I wanted to see. That is why I invited you, because I just wanted to make you happy.",
+"I am sorry about earlier when it was very hot on our way home. I could not do anything at that time.",
+"I was also thinking if I would still make it to work at McDonald's, but it was okay. I just wanted you to be happy that time. HAHAHAH.",
+"I know we are friends, but as time goes by, I really cannot forget you.",
+"I hope it is okay for you. I know this is embarrassing for me right now, but I just want to say that...",
+"Hmmm.",
+"hmmmmmm...",
+"Uhmmmmmmmmmmm...",
+"I LIKE YOU",
+"For so many reasons. I like your flaws, your imperfections, and the way they make you perfectly you.",
+"I love your personality, your vibe, and the way you light up everything around you. Your style feels effortless, and your smile makes everything better.",
+"I made this code just to show you how deep my feelings are.",
+"But no pressure. You do not have to feel the same way. I just needed to say this for my own peace of mind.",
+"I know I am not ready for a relationship yet, but I promise to myself I will graduate before starting one.",
+"I will wait until we graduate, for love deserves a heart that is ready and a future that is secure.",
+"Take care."
+];
+
+function typeText(text, i, box, done){
+    if(i < text.length){
+        box.innerHTML += text.charAt(i);
+        setTimeout(()=>typeText(text,i+1,box,done),40);
+    }else{
+        box.innerHTML += "<br><br>";
+        if(done) done();
+    }
+}
+
+function startConfession(){
+    document.getElementById("namePage").style.display="none";
+    const box=document.getElementById("confession");
+    box.style.display="block";
+
+    let i=0;
+    function next(){
+        if(i < messages.length){
+            typeText(messages[i],0,box,()=>{ i++; setTimeout(next,400); });
+        }
+    }
+    next();
+    createCats();
+}
+
+function toggleMusic(){
+    const music=document.getElementById("bgMusic");
+    if(music.paused){ music.play(); }
+    else{ music.pause(); }
+}
+
+function createCats(){
+    for(let i=0;i<12;i++){
+        const cat=document.createElement("div");
+        cat.className="cat";
+        cat.innerHTML="🐱";
+        cat.style.left=Math.random()*100+"vw";
+        cat.style.fontSize=(Math.random()*20+20)+"px";
+        cat.style.animationDuration=(Math.random()*5+5)+"s";
+        document.body.appendChild(cat);
+    }
+}
+</script>
+
+</body>
+</html>
